@@ -1,0 +1,200 @@
+CONTENT OS: First Steps for New Developers
+==========================================
+
+Welcome! This guide helps you get from zero to running the project locally.
+If you are new to Google Cloud, follow this from top to bottom.
+
+1) What You Are Setting Up
+--------------------------
+You will set up:
+1. Python dependencies for the backend.
+2. Google Cloud authentication and project config.
+3. gcloud CLI and required APIs.
+4. Local environment variables.
+5. Backend and frontend local run.
+
+
+2) Prerequisites
+----------------
+Install these first:
+1. Python 3.10+ (recommended 3.11)
+2. Git
+3. FFmpeg (required for video composition paths)
+4. Google Cloud SDK (gcloud CLI)
+
+Optional but useful:
+1. VS Code
+2. Postman or curl for API testing
+
+
+3) Install gcloud CLI (Google Cloud SDK)
+----------------------------------------
+Windows:
+1. Download installer from Google Cloud SDK docs.
+2. Install with default options.
+3. Open a new terminal and verify:
+   gcloud --version
+
+macOS:
+1. Use Homebrew:
+   brew install --cask google-cloud-sdk
+2. Restart terminal and verify:
+   gcloud --version
+
+Linux:
+1. Follow official apt/yum instructions from Google Cloud docs.
+2. Verify:
+   gcloud --version
+
+
+4) Sign In and Set Your Google Cloud Project
+--------------------------------------------
+Run:
+1. gcloud auth login
+2. gcloud config set project YOUR_PROJECT_ID
+3. gcloud auth application-default login
+
+Why both logins?
+1. gcloud auth login: for CLI/project operations.
+2. application-default login: for local app libraries used by this backend.
+
+Check your active project:
+1. gcloud config get-value project
+
+
+5) Enable Required Google Cloud APIs
+------------------------------------
+Run these commands (replace project if needed):
+1. gcloud services enable aiplatform.googleapis.com
+2. gcloud services enable texttospeech.googleapis.com
+3. gcloud services enable storage.googleapis.com
+
+Notes:
+1. Gemini/Veo access may require allowlisting or model availability in your org/region.
+2. If a call fails due to permissions, confirm IAM roles and API enablement.
+
+
+6) IAM and Permissions (Minimum)
+--------------------------------
+Your user/service account generally needs:
+1. Vertex AI User
+2. Storage Object Admin (or narrower bucket/object permissions)
+3. Text-to-Speech User
+
+If your organization uses least privilege, ask cloud admin for exact scoped roles.
+
+
+7) Create/Confirm a Cloud Storage Bucket
+----------------------------------------
+This project writes generated media to a GCS path.
+Example expected env format:
+1. gs://your-bucket/generated-videos
+
+If needed, create a bucket (example):
+1. gcloud storage buckets create gs://your-bucket --location=US
+
+Then ensure your account can write to it.
+
+
+8) Project Setup (Local)
+------------------------
+From repository root:
+1. python -m venv .venv
+2. Activate venv
+   - Windows (PowerShell): .\.venv\Scripts\Activate.ps1
+   - Windows (cmd): .venv\Scripts\activate.bat
+   - macOS/Linux: source .venv/bin/activate
+3. pip install -r requirements.txt
+
+
+9) Configure Environment Variables
+----------------------------------
+Create a .env file in the repo root with values like this:
+
+GOOGLE_CLOUD_PROJECT=your-project-id
+GOOGLE_CLOUD_LOCATION=global
+GEMINI_MODEL=gemini-2.5-flash
+VEO_MODEL=veo-3.1-generate-001
+GENERATED_VIDEOS_BUCKET=gs://your-bucket/generated-videos
+FFMPEG_BINARY=ffmpeg
+TTS_LANGUAGE_CODE=en-US
+TTS_VOICE_NAME=en-US-Chirp3-HD-Achernar
+TTS_SPEAKING_RATE=1.0
+
+Important:
+1. GOOGLE_CLOUD_PROJECT is required. App startup will fail if missing.
+2. Keep .env out of source control if it contains sensitive values.
+
+
+10) Run the Backend API
+-----------------------
+From repo root:
+1. uvicorn backend.main:app --reload
+
+Health check:
+1. Open http://127.0.0.1:8000/health
+
+
+11) Run the Frontend
+--------------------
+In a second terminal:
+1. cd frontend
+2. npm ci
+3. npm run dev
+
+Open:
+1. http://127.0.0.1:5173
+
+The studio talks to the backend at:
+1. http://127.0.0.1:8000
+To use another backend, set VITE_API_BASE_URL (e.g. in frontend/.env.local) and restart npm run dev.
+
+
+12) First Smoke Test
+--------------------
+Try this flow:
+1. Confirm /health is OK.
+2. Call POST /api/understand with sample text.
+3. Call POST /api/create to generate a Content Blueprint.
+4. (Optional) Try /api/create-video after confirming bucket + FFmpeg setup.
+
+
+13) Common Issues and Quick Fixes
+---------------------------------
+Issue: "GOOGLE_CLOUD_PROJECT is not configured."
+Fix:
+1. Add GOOGLE_CLOUD_PROJECT in .env.
+2. Restart server.
+
+Issue: Permission denied from Google APIs.
+Fix:
+1. Check active account: gcloud auth list
+2. Re-run: gcloud auth application-default login
+3. Verify IAM roles and API enablement.
+
+Issue: FFmpeg not found.
+Fix:
+1. Install FFmpeg.
+2. Ensure ffmpeg is in PATH.
+3. Or set FFMPEG_BINARY to full executable path.
+
+Issue: Cannot write to bucket.
+Fix:
+1. Verify GENERATED_VIDEOS_BUCKET value format starts with gs://
+2. Check bucket exists.
+3. Confirm storage permissions.
+
+
+14) Helpful Repo Docs
+---------------------
+After this guide, read:
+1. README.md (core capabilities + API endpoints)
+2. docs/deployment.md (Cloud Run deployment)
+3. ARCHITECTURE.md (system design)
+4. docs/demo.md (demo flow)
+
+
+You Are Ready
+-------------
+If backend + frontend both run and /health returns OK, your environment is ready.
+Next best step is to test /api/create and /api/understand with your own input.

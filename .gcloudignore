@@ -1,0 +1,35 @@
+# Local environments and secrets
+.env
+.env.*
+.venv
+.venv_old
+.git
+.gitignore
+
+# Python caches
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# User uploads (persona face photos) must never be baked into the image
+backend/uploads
+generated_videos
+
+# Frontend build inputs only (the image builds the frontend itself)
+frontend/node_modules
+frontend/dist
+frontend/tsconfig.tsbuildinfo
+frontend/legacy
+frontend/.env*
+
+# Not needed at runtime
+docs
+test_gemini.py
+*.md
+
+# Deployment helpers
+deploy.ps1
+.gcloudignore
+.dockerignore

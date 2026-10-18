@@ -1,0 +1,24 @@
+# Secrets and machine-local settings
+.env
+.env.*
+frontend/.env*
+
+# Python
+.venv/
+.venv_old/
+__pycache__/
+*.pyc
+
+# Generated media and user uploads (face photos)
+generated_videos/
+backend/uploads/
+
+# Frontend build output
+frontend/node_modules/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+
+# OS / editor noise
+*.log
+.DS_Store
+Thumbs.db

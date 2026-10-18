@@ -1,0 +1,234 @@
+:root {
+  --paper: #f6f0e6;
+  --ink: #112528;
+  --deep: #0f4c5c;
+  --accent: #ff7a00;
+  --accent-soft: #ffd4af;
+  --card: #fffaf1;
+  --line: #d6c6b3;
+  --ok: #166534;
+  --warn: #9a3412;
+  --shadow: 0 12px 26px rgba(17, 37, 40, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 20% 10%, #ffe5cd 0%, rgba(255, 229, 205, 0) 40%),
+    radial-gradient(circle at 80% 5%, #d6f0f4 0%, rgba(214, 240, 244, 0) 38%),
+    var(--paper);
+  min-height: 100vh;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.25;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(circle at center, black 55%, transparent 95%);
+}
+
+.hero {
+  padding: 2.4rem 1.2rem 1.4rem;
+  text-align: center;
+  animation: rise 420ms ease-out;
+}
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.76rem;
+  margin: 0;
+  color: #3b5f66;
+}
+
+h1 {
+  margin: 0.55rem 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.08;
+}
+
+.hero-subtitle {
+  margin: 0.65rem auto 0;
+  max-width: 760px;
+  color: #2b4a50;
+  font-size: 1.05rem;
+}
+
+.layout {
+  width: min(1200px, 95vw);
+  margin: 0 auto 2rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(12, 1fr);
+  animation: rise 520ms ease-out;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.08rem;
+  font-family: "Fraunces", Georgia, serif;
+}
+
+.card-control {
+  grid-column: span 12;
+}
+
+.card-form {
+  grid-column: span 6;
+}
+
+.card-wide {
+  grid-column: span 12;
+}
+
+.card-output {
+  grid-column: span 12;
+}
+
+label {
+  display: block;
+  font-size: 0.86rem;
+  margin: 0.42rem 0 0.35rem;
+  color: #334b50;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.62rem 0.68rem;
+  font: inherit;
+  background: #fffdf8;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--deep);
+  box-shadow: 0 0 0 3px rgba(15, 76, 92, 0.12);
+}
+
+.hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  color: #546e72;
+}
+
+.row {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 0.45rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 1px solid #0f4c5c;
+  background: linear-gradient(160deg, #0f4c5c, #125b70);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 0.56rem 0.95rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 110ms ease, filter 110ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button.secondary {
+  background: linear-gradient(160deg, #8a3d00, #ff7a00);
+  border-color: #8a3d00;
+}
+
+button.ghost {
+  background: transparent;
+  color: #23464d;
+  border-color: #9bb3b7;
+}
+
+.output-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0.5rem 0 0;
+  padding: 0.9rem;
+  background: #111827;
+  color: #f9fafb;
+  border-radius: 12px;
+  max-height: 560px;
+  overflow: auto;
+  font-size: 0.84rem;
+  line-height: 1.38;
+}
+
+.status-ok {
+  color: var(--ok);
+}
+
+.status-warn {
+  color: var(--warn);
+}
+
+@media (max-width: 920px) {
+  .card-form,
+  .card-control,
+  .card-output {
+    grid-column: span 12;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

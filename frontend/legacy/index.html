@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CONTENT OS Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <header class="hero">
+    <p class="kicker">AI Builder Cup Prototype</p>
+    <h1>CONTENT OS Studio</h1>
+    <p class="hero-subtitle">Content DNA + Experience Planning + Adaptive Delivery</p>
+  </header>
+
+  <main class="layout">
+    <section class="card card-control">
+      <h2>Runtime</h2>
+      <label for="apiBase">API Base URL</label>
+      <input id="apiBase" type="text" value="http://127.0.0.1:8000" />
+      <p class="hint">Update this when pointing to Cloud Run.</p>
+    </section>
+
+    <section class="card card-form">
+      <h2>Create</h2>
+      <label for="createPrompt">What do you want to communicate?</label>
+      <textarea id="createPrompt" rows="4">Explain black holes for beginners in a cinematic two minute experience.</textarea>
+      <div class="row">
+        <input id="createAudience" type="text" value="beginner" placeholder="Audience level" />
+        <input id="createDuration" type="number" value="120" min="15" max="3600" />
+      </div>
+      <div class="row">
+        <input id="createLanguage" type="text" value="English" />
+        <input id="createTone" type="text" value="engaging" />
+      </div>
+      <div class="actions">
+        <button id="btnCreate">Create Content DNA</button>
+        <button id="btnCreateVideo" class="secondary">Create Video + Narration</button>
+      </div>
+    </section>
+
+    <section class="card card-form card-wide">
+      <h2>Trend Ideation (YouTube + MCP)</h2>
+      <label for="ytCategory">YouTube Category</label>
+      <div class="row">
+        <select id="ytCategory">
+          <option value="entertainment">Entertainment</option>
+          <option value="news">News</option>
+          <option value="education">Education</option>
+          <option value="music">Music</option>
+          <option value="sports">Sports</option>
+          <option value="gaming">Gaming</option>
+          <option value="technology">Technology</option>
+        </select>
+        <input id="ytRegion" type="text" value="US" maxlength="2" placeholder="Region code" />
+      </div>
+      <div class="actions">
+        <button id="btnIdeateYouTube">Fetch YouTube Trends + Summarize</button>
+      </div>
+      <p class="hint">This pulls real trending videos from YouTube by selected category and region, then summarizes for ideation.</p>
+
+      <label for="trendTopic">Topic Focus (Optional)</label>
+      <input id="trendTopic" type="text" placeholder="AI tools for small creators, fintech education, climate explainers..." />
+      <label for="trendSignals">Trend Signals (one per line, format: source_type|source_label|text)</label>
+      <textarea id="trendSignals" rows="6">youtube_title|Shorts trend|Top 5 AI automations every creator should try in 2026
+youtube_caption|Creator video|...people keep asking for fast workflow templates and monetizable niches...
+youtube_video_notes|Review notes|Video compares 3 tools and viewers love concrete ROI examples.</textarea>
+      <label for="trendMcpDump">Optional YouTube/Google MCP Dump</label>
+      <textarea id="trendMcpDump" rows="3" placeholder="Paste MCP raw output here if available."></textarea>
+      <label for="trendAdditionalContext">Additional Context (Optional)</label>
+      <textarea id="trendAdditionalContext" rows="2" placeholder="Business goal, market, constraints..."></textarea>
+      <div class="actions">
+        <button id="btnIdeateTrends">Ideate From Trends</button>
+        <button id="btnUseTopTrend" class="secondary">Use Top Idea For Create</button>
+      </div>
+      <p class="hint">After ideation, use the top idea button to auto-fill Create prompt and generate Content DNA or video.</p>
+    </section>
+
+    <section class="card card-form">
+      <h2>Transform</h2>
+      <label for="transformSource">Source Content</label>
+      <textarea id="transformSource" rows="5">Paste source article, transcript, or notes here.</textarea>
+      <label for="transformGoal">Transformation Goal</label>
+      <textarea id="transformGoal" rows="2">Convert this into a concise visual lesson for high school learners.</textarea>
+      <div class="actions">
+        <button id="btnTransform">Transform to Blueprint</button>
+      </div>
+    </section>
+
+    <section class="card card-form">
+      <h2>Understand</h2>
+      <label for="understandText">Content to Analyze</label>
+      <textarea id="understandText" rows="4">Paste any content to extract concepts, claims, and uncertainty.</textarea>
+      <div class="actions">
+        <button id="btnUnderstand">Analyze Semantics</button>
+      </div>
+    </section>
+
+    <section class="card card-form">
+      <h2>Adapt</h2>
+      <label for="adaptInstruction">Adaptation Instruction</label>
+      <textarea id="adaptInstruction" rows="2">Make it simpler for a 12-year-old and reduce to 90 seconds.</textarea>
+      <label for="adaptBasePrompt">Base Prompt</label>
+      <textarea id="adaptBasePrompt" rows="2">Explain black holes for beginners in a cinematic two minute experience.</textarea>
+      <div class="row">
+        <input id="adaptContentId" type="text" placeholder="Optional content_id" />
+        <input id="adaptVersion" type="number" value="1" min="1" />
+      </div>
+      <div class="actions">
+        <button id="btnAdapt">Create Adapted Blueprint</button>
+      </div>
+    </section>
+
+    <section class="card card-form">
+      <h2>Final Render</h2>
+      <label for="renderContentId">Content ID</label>
+      <input id="renderContentId" type="text" placeholder="content_xxx" />
+      <label for="renderSceneUris">Scene URIs (one gs:// URI per line)</label>
+      <textarea id="renderSceneUris" rows="4"></textarea>
+      <label for="renderNarrationUri">Optional Narration Audio URI</label>
+      <input id="renderNarrationUri" type="text" placeholder="gs://.../narration.wav" />
+      <div class="actions">
+        <button id="btnRender">Render Final Experience</button>
+      </div>
+    </section>
+
+    <section class="card card-output">
+      <div class="output-head">
+        <h2>Output</h2>
+        <button id="btnClear" class="ghost">Clear</button>
+      </div>
+      <pre id="outputPane">Run a flow to view structured results.</pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
